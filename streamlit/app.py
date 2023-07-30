@@ -1,21 +1,24 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 
 st.title("App title")
 
-st.markdown("# 見出し1")
-st.markdown("## 見出し2")
-st.markdown("### 見出し3")
+if st.sidebar.button('Say hello'):
+    st.sidebar.write('Why hello there')
 
-st.markdown("""
-    # 見出し1
-    ## 見出し2
-    ### 見出し3
-""")
+col1, col2, col3 = st.columns(3)
 
-st.code('''
-    def hello():
-        print("Hello, Streamlit!")
-''')
+with col1:
+   st.header("A cat")
+   st.image("https://static.streamlit.io/examples/cat.jpg")
 
-st.write('st.write, World!')
-"Demo, magic"
+col1.header("A cat")
+
+with col2:
+   st.header("A dog")
+   st.image("https://static.streamlit.io/examples/dog.jpg")
+
+with col3:
+   st.header("An owl")
+   st.image("https://static.streamlit.io/examples/owl.jpg")
