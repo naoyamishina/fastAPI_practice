@@ -15,7 +15,7 @@ def get_bookings(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Booking).offset(skip).limit(limit).all()
 
 # ユーザー作成
-def create_user(db: Session, user: schemas.User):
+def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(username=user.username)
     db.add(db_user)
     db.commit()
@@ -23,7 +23,7 @@ def create_user(db: Session, user: schemas.User):
     return db_user
 
 # 会議室作成
-def create_room(db: Session, room: schemas.Room):
+def create_room(db: Session, room: schemas.RoomCreate):
     db_room = models.Room(room_name=room.room_name, capacity=room.capacity)
     db.add(db_room)
     db.commit()
@@ -31,7 +31,7 @@ def create_room(db: Session, room: schemas.Room):
     return db_room
 
 # 予約作成
-def create_booking(db: Session, booking: schemas.Booking):
+def create_booking(db: Session, booking: schemas.BookingCreate):
     db_booking = models.Booking(
         user_id=booking.user_id,
         room_id=booking.room_id,
