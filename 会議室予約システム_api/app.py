@@ -163,8 +163,16 @@ if page=="bookings":
                 minute=end_time.minute
             ).isoformat(),
         }
-        #定員以下の場合
-        if booked_num <= capacity:
+        #定員より多い予約人数の場合
+        if booked_num > capacity:
+            st.error(f"{room_name}の定員は、{capacity}以下です。")
+        #開始時刻 >= 終了時刻
+        elif start_time >= end_time:
+            st.error("開始時刻が終了時刻を超えています")
+        #利用時間を超えている場合
+        elif start_time < datetime.time(hour=9, minute=0, second=0) or end_time > datetime.time(hour=22, minute=0, second=0):
+            st.error("利用時間は9:00~22:00になります")
+        else:
             #会議室予約
             url="http://127.0.0.1:8000/bookings"
             res = requests.post(
@@ -173,6 +181,6 @@ if page=="bookings":
             )
             if res.status_code == 200:
                 st.success("予約完了")
+            elif res.status_code == 404 and res.json()['detail'] == "Already booked":
+                st.success("既に予約が入っています")
             st.json(res.json())
-        else:
-            st.error(f"{room_name}の定員は、{capacity}以下です。")
